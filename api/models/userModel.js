@@ -1,29 +1,43 @@
 import mongoose from 'mongoose'
+
  
 const Schema = mongoose.Schema
  
 const DownloadSchema = new Schema({
     Firstname: {
         type: String,
-        required: 'Firstname required'
+        required: 'Firstname is required'
     },
     
     Lastname: {
         type: String,
-        required: 'Lastname required'
+        required: 'Lastname is required'
     },
     Email: {
         type: String,
-        required: 'Email required'
+        unique: true,        
+        required: 'Email is required',
+        match:/^([a-zA-Z0-9\.-]+)@([a-zA-Z0-9-]+).([a-z]{2,10})$/,
     },
     
     Password: {
         type: String,
-        required: 'Password required'
+        required: 'Password is required',
+        match: /^([a-zA-Z0-9_\-\.\+\#]){8,15}$/,
     },
     ConfirmPassword: {
         type: String,
-        required: 'Confirmpassword required'
+        required: 'Password does not match',
+        match: /^([a-zA-Z0-9_\-\.\+\#]){8,15}$/,
+
+    },
+    Create_At:{
+        type:Date,
+        default:Date.now
+    },
+    Updated_At:{
+        type:Date,
+        default:Date.now
     },
 })
  
