@@ -3,14 +3,23 @@ import userSchema from '../models/userModel'
 const Download = mongoose.model('Download', userSchema)
 var validator = require("email-validator");
 const bcrypt = require('bcrypt');
+const Cryptr = require('cryptr');
+const cryptr = new Cryptr('myTotalySecretKey');
 exports.create_At = (req, res) => {
     // bcrypt.genSalt(10, function(err, salt) {
     //     bcrypt.hash(User.Password, salt, function(err, hash) {
     //     User.Password = hash;
     //     User.save(callback);
     //     });
-    //     });    
-        if (req.body.Password!= req.body.ConfirmPassword) {
+    //     });   
+    const reg= /(?=.*[a-zA-Z0-9]).*/;
+if(reg.test(req.body.Password))
+{
+req.body.Password = cryptr.encrypt(req.body.Password);
+req.body.ConfirmPassword = cryptr.encrypt(req.body.ConfirmPassword);
+
+} 
+    if (req.body.Password!= req.body.ConfirmPassword) {
         req.body.ConfirmPassword="";
         }
     let newDownload = new Download(req.body)

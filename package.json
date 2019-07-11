@@ -12,6 +12,7 @@
   "dependencies": {
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
+    "cryptr": "^4.0.2",
     "email-addresses": "^3.0.3",
     "email-validator": "^2.0.4",
     "es6": "0.0.7",

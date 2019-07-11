@@ -36,7 +36,7 @@ const routes = (app) => {
                 }
                 ,bcrypt.Password
                
-                ).then(User => res.json(User));
+                ).then(user => res.json(user));
                 });
     
 }
