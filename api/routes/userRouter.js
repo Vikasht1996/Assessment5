@@ -1,13 +1,13 @@
-import { create_At,getdata_At} from '../controllers/userController'
+import { add_Data,get_Data,update_Data,delete_Data,login_Data} from '../controllers/userController'
 const { check,validationResult } = require('express-validator/check')
-import Email from 'email-addresses'
 
 // import { check ,validationResult} from 'express-validator/check'
 
 const routes = (app) => {
     app.route('/assessment')
-    .get(getdata_At)
-        app.post('/assessment',
+    .get(get_Data)
+    .delete(delete_Data)
+        app.post('/signin',
             // [
             //     check('Firstname').isEmpty(),
             //     check('Lastname').isEmpty(),
@@ -22,7 +22,7 @@ const routes = (app) => {
               check('Password').isLength({ max : 8 }).withMessage('Password must have more than 5 characters'),
               check('ConfirmPassword').not().isEmpty().trim().withMessage('Password does not match')
 
-            ],create_At,(req, res) => {
+            ],add_Data,(req, res) => {
                 const errors = validationResult(req);
                 if (!errors.isEmpty()) {
                 return res.status(422).json({ errors: errors.array() });
@@ -33,53 +33,21 @@ const routes = (app) => {
                 Email: req.body.Email,
                 Password: req.body.Password,
                 ConfirmPassword:req.body.ConfirmPassword,
-                }
-                ,bcrypt.Password
-               
+                }               
                 ).then(user => res.json(user));
                 });
-    
+                // app.post('/login',login_Data)
+               app.route('/assessment/:id')
+               .put(update_Data)
+        
+      
 }
 export default routes
 
-// import { addNewDownload, getDownloads, getDownload, updateDownload, deleteDownload } from '../Controller/usercontroller'
-// const { check, validationResult } = require('express-validator');
-// var passwordValidator = require('password-validator');
-// import * as EmailValidator from 'email-validator';
 
 
-// var passwordHash = require('password-hash');
-// const routes = (app) => {
-// // app.route('/sign_up') 
-// // .post(addNewDownload)
 
-// // const { check, validationResult } = require('express-validator');
 
-// app.post('/sign_up', [ 
-// // check(req.body.Email).isEmail(),
-// // check(req.body.Password).isLength({ max: 8})
-// ], addNewDownload,async(req, res,next) => {
-// const errors = validationResult(req);
 
-// if (!errors.isEmpty()) {
-// return res.status(422).json({ errors: errors.array() });
-// }
-// User.create({
-// FirstName: req.body.FirstName,
-// LastName: req.body.LastName,
-// Email: req.body.Email,
-// Password: req.body.Password,
-// ConfromPassword: req.body.ConfromPassword,
-// Created_at: req.body.Created_at,
-// Updated_at:req.body.Updated_at
 
-// }).then(User => res.json(User));
-// });
-// // to get all data 
-// app.route('/sign_up')
-// .get(getDownloads)
-// // .get(getDownload)
-// // .put(updateDownload)
-// .delete(deleteDownload)
-// }
-// export default routes
+

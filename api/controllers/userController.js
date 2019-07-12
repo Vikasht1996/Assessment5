@@ -1,123 +1,61 @@
 import mongoose from 'mongoose'
-import userSchema from '../models/userModel'
-const Download = mongoose.model('Download', userSchema)
-var validator = require("email-validator");
-const bcrypt = require('bcrypt');
+import downloadSchema from '../models/userModel'
+const Download = mongoose.model('Download', downloadSchema)
+const bcrypt = require('bcryptjs');
 const Cryptr = require('cryptr');
 const cryptr = new Cryptr('myTotalySecretKey');
-exports.create_At = (req, res) => {
-    // bcrypt.genSalt(10, function(err, salt) {
-    //     bcrypt.hash(User.Password, salt, function(err, hash) {
-    //     User.Password = hash;
-    //     User.save(callback);
-    //     });
-    //     });   
-    const reg= /(?=.*[a-zA-Z0-9]).*/;
-if(reg.test(req.body.Password))
-{
-req.body.Password = cryptr.encrypt(req.body.Password);
-req.body.ConfirmPassword = cryptr.encrypt(req.body.ConfirmPassword);
-
-} 
-    if (req.body.Password!= req.body.ConfirmPassword) {
-        req.body.ConfirmPassword="";
+exports.add_Data = (req, res) => {
+    
+    if(req.body.Password === req.body.ConfirmPassword){
+        req.body.Password = cryptr.encrypt(req.body.Password);
+        req.body.ConfirmPassword = cryptr.encrypt(req.body.ConfirmPassword);
         }
     let newDownload = new Download(req.body)
     newDownload.save((error, download) => {
         if (error) { res.json(error) }
-        res.json(download)
+        res.json("User created successfully")
     })
+    // console.log(req.body.Empname);
 }
-exports.getdata_At = (req, res) => {
+
+    
+exports.get_Data = (req, res) => {
     Download.find({}, (error, downloads) => {
         if (error) { res.json(error) }
-        res.json(downloas)
+        res.json(downloads)
     })
-    // console.log(req.body.Empname)
 }
- 
-// exports.updated_At = (req, res) => {
-//     Download.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (error, download) => {
-//         if (error) { res.json(error) }
-//         res.json(download)
-//     })
-// }
-// import mongoose from 'mongoose'
-// import downloadSchema from '../models/usermodel'
-// import * as EmailValidator from 'email-validator';
-// const Download = mongoose.model('Download', downloadSchema)
-
-// add new download to the database
-// exports.addNewDownload=(req, res)=> {
-// console.log("post hi")
-// let newDownload = new Download(req.body)
-// newDownload.save((error, download) => {
-// if (error) { res.json(error) }
-// res.json(download)
-// })
-// // console.log(req.body.fileName);
-// }
-// var validator = require("email-validator");
+exports.update_Data = (req, res) => {
+        Download.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (error, download) => {
+            if (error) { res.json(error) }
+            res.json(download)
+        })
+    }
+    exports.delete_Data = (req, res) => {
+        Download.remove((error, download) => {
+            if (error) { res.json(error) }
+            res.json(download)
+        })
+    }
+    // exports.login_Data = (req,res) =>
+    // {
+    //     Download.find({ Email: req.body.Email}, req.body, { new: true }, (error, download) => {
+    //         if (error) { res.json(error) }
+    //         res.json('Login successfully')
+    //     })
+    // }
+           
+    
 
 
+//     exports.login_Data= (req,res) =>{
+//         const Email = req.body.Email;
+//         const Password = req.body.Password;
+//         let loadedUser;
+// downloadSchema.findOne({Email: Email,Password:Password},(error, download) => {
+//             if (error) { res.json(error) }
+//             res.json('Login successfully')
+        
+//         })
 
-// exports.addNewDownload=(req, res)=> {
-// console.log("post hi")
-// console.log(req.body.FirstName)
-
-// if (req.body.Password!= req.body.ConfromPassword) {
-// req.body.ConfromPassword="";
-// }
-// let newDownload = new Download(req.body)
-
-// newDownload.save((error, download) => {
-// if (error) { res.json(error) }
-// res.json(download)
-// })
-
-
-// // console.log(req.body.fileName);
-// }
-// // get all downloads from the database
-// exports.getDownloads=(req, res)=> {
-// console.log("get hi")
-// let newDownload = new Download(req.body)
-// Download.find({}, (error, downloads) => {
-// if (error) { res.json(error) }
-// res.json(downloads)
-// })
-// }
-
-// // // get single download based on the id
-// // exports.getDownload=(req, res)=> {
-// Download.findById(req.params.id, (error, download) => {
-// if (error) { res.json(error) }
-// // console.log(req.body.downloads.firstName)
-// res.json(download)
-// })
-// }
-
-// // update the download information based on id
-// export function updateDownload(req, res) {
-// Download.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (error, download) => {
-// if (error) { res.json(error) }
-// res.json(download)
-// })
-// }
-
-// // delete the download from the database.
-// export function deleteDownload(req, res) {
-// Download.remove({ _id: req.params.id }, (error, download) => {
-// if (error) { res.json(error) }
-// res.json(download)
-// })
-// }
- 
-
-
-
-
-
-
-
-
+//     }

@@ -23,12 +23,10 @@ const DownloadSchema = new Schema({
     Password: {
         type: String,
         required: 'Password is required',
-        match: /^([a-zA-Z0-9_\-\.\+\#]){8,15}$/,
     },
     ConfirmPassword: {
         type: String,
         required: 'Password does not match',
-        match: /^([a-zA-Z0-9_\-\.\+\#]){8,15}$/,
 
     },
     Create_At:{

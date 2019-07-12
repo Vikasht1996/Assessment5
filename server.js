@@ -3,7 +3,7 @@ import routes from './api/routes/userRouter'
 import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
 const app = express()
-const PORT = 3003
+const PORT = 3004
  
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost:27017/register_form')
