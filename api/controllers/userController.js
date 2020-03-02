@@ -15,7 +15,7 @@ exports.add_Data = (req, res) => {
         if (error) { res.json(error) }
         res.json("User created successfully")
     })
-    // console.log(req.body.Empname);
+   
 }
 
     
